@@ -2,97 +2,88 @@
 #include <string>
 using namespace std;
 
-// So this part is the base class from the top of the draw io Diagram. This Blue part is going to be what I did (Wadan Mehraban)
- class LicensePlate {
- public:
-string plateNumber;
-string stateOrigin;
-// Simple constructor
-LicensePlate(string n) {
-plateNumber = n;
-}
-virtual bool isValid() {
-if (plateNumber.length() == 8) {
-return true;
-}
-return false;
-}
-};
-// Okay I did this part
-// --- TODO:  please finish the PlateType class
-// This is the middle-left box in the diagram
-
-class PlateType : public LicensePlate {
+class LicensePlate {
+protected:
+    string plateNumber;
 public:
- string vehicleType;
-
-
-// The diagram says # vehicleType
- // IDK how ownerRegistration works here?
-// I just added vehicleType for now.
-
-
-PlateType(string n, string type) : LicensePlate(n) {
-vehicleType = type;
-}
-void display() {
-cout << "Type: " << vehicleType << endl;
- }
- };
-
-// Ok so this part is going to be the child class which gets everything from LicensePlate
-
-Class VanityPlate : public LicensePlate {
-public:
-	VanityPlate(string n) : LicensePlate(n) {}
-
-bool isValid() override {
-	Int size = plateNumber.length();
-	if (size>= 2 && size <= 7) {
-	return true;
-}
-
+  //string PlateSize; //does nothing for our program as plate number checks if size is correct or not *remove variable
+    string stateOrigin;
+    LicensePlate(string n) {
+        plateNumber = n;
+    }
+    string getPlateNumber() {
+        return plateNumber; //allows the main to access plateNumber
+    }
+    virtual bool isValid() {
+        if (plateNumber.length() == 8) {
+            return true;
+        }
+        return false;
+    }
 };
 
-// I also need help here for the PlateOwner Class.
-//I started this but I got stuck and I am very confused on the private variables.
-// I also need help figuring out how to link the plate to the owner.
-// I have no clue what AI is telling me
+class PlateType: public LicensePlate {
+protected:
+    string vehicleType;
+    public:
 
-class PlateOwner
+    PlateType(string n, string type):LicensePlate(n) {
+        vehicleType = type;
+    }
+    void displayVehicleType() {
+        cout << "Type: " << vehicleType << endl;
+    }
+};
+
+class VanityPlate: public LicensePlate {
+public:
+    VanityPlate(string n) : LicensePlate(n){}
+    bool isValid() override {
+        int size = plateNumber.length();
+        if (size>= 2 && size <= 7) {
+            return true;
+        }
+        return false;
+    }
+};
+
+class PlateOwner: public LicensePlate {
 private:
-	string driversLicense;
-	string owner Registration;
+    string driversLicense;
+    string ownerRegistration;
 public:
-
-	// Please Add a constructor here, I think thats whats suppose to be here
-	// Also please do this part. How do we show the connection to License Plate?
+    PlateOwner(string n, string license, string ownerReg):LicensePlate(n){
+        driversLicense = license;
+        ownerRegistration = ownerReg;
+    }
+    void displayOwnerInfo() {
+        cout << "Driver License " << driversLicense << endl;
+        cout << "Owner's Registration: " << ownerRegistration << endl;
+    }
 };
 
-int main () {
-// so this part is going to be the standard plate test on the diagram
-LicensePlate p1 ('ABC-1234');
-cout << “Standard Plate: “ << p1.plateNumber <<endl;
-if (p1.isValid()) {
-	cout << "Status: Valid" << endl;
-} else {
-	cout << "Status: Invalid" << endl;
-}
+int main() {
+    LicensePlate p1("ABC-1234");
+    cout << "Standard Plate: " << p1.getPlateNumber() << endl; //prints out standard license plate number
 
-cout << "-------------------" << endl;
+    if (p1.isValid()) { //checks if the standard license plate number is valid
+        cout << "Status: Valid" << endl;
+    }else{
+        cout << "Status: Invalid" << endl;
+    }
+    cout << "------------------" << endl;
 
-// Vanity plate test
-VanityPlate v1("FAST");
-cout << "Vanity Plate: " << v1.plateNumber << endl;
-if (v1.isValid()) {
-	cout << "Status: Valid" << endl;
- } else {
-	cout << "Status: Invalid" << endl;
-}
-
-// Testing the unfinished PlateType part
-PlateType t1("XYZ-123", "Truck");
-t1.display();
-
-return 0;
+    VanityPlate v1("FAST");
+    cout << "Vanity Plate: " << v1.getPlateNumber() << endl; //prints out vanity license plate number/string
+    if (v1.isValid()) { // checks if the vanity plate number/ string is valid
+        cout << "Status: Valid" << endl;
+    }else {
+        cout << "Status: Invalid" << endl;
+    }
+    cout << "------------------" << endl;
+    PlateType t1("XYZ-123", "Truck"); //prints out the plate number and vehicle type
+    t1.displayVehicleType();
+    PlateOwner o1("ABC-1234", "D1209746", "D-12234");
+    o1.displayOwnerInfo();
+    return 0;
 }
