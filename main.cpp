@@ -51,14 +51,18 @@ class PlateOwner: public LicensePlate {
 private:
     string driversLicense;
     string ownerRegistration;
+    string ownerInsurance;
 public:
-    PlateOwner(string n, string license, string ownerReg):LicensePlate(n){
+    PlateOwner(string n, string license, string ownerRegNum, string insurance):LicensePlate(n){
         driversLicense = license;
-        ownerRegistration = ownerReg;
+        ownerRegistration = ownerRegNum;
+        ownerInsurance = insurance;
     }
     void displayOwnerInfo() {
-        cout << "Driver License " << driversLicense << endl;
-        cout << "Owner's Registration: " << ownerRegistration << endl;
+        cout << "Plate Number: " << plateNumber << endl;
+        cout << "Driver License Number: " << driversLicense << endl;
+        cout << "Owner's Registration Number: " << ownerRegistration << endl;
+        cout << "Owner's Insurance: " << ownerInsurance << endl;
     }
 };
 
@@ -83,7 +87,7 @@ int main() {
     cout << "------------------" << endl;
     PlateType t1("XYZ-123", "Truck"); //prints out the plate number and vehicle type
     t1.displayVehicleType();
-    PlateOwner o1("ABC-1234", "D1209746", "D-12234");
+    PlateOwner o1("ABp-1234", "D1209746", "D-12234", "No"); //prints out the plate number, license ID, and owner registration number
     o1.displayOwnerInfo();
     return 0;
 }
