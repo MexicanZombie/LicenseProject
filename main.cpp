@@ -4,34 +4,39 @@ using namespace std;
 
 class LicensePlate {
 protected:
-    string plateNumber;
+    string PlateNumber;
 public:
-  //string PlateSize; //does nothing for our program as plate number checks if size is correct or not *remove variable
     string stateOrigin;
     LicensePlate(string n) {
-        plateNumber = n;
+        PlateNumber = n;
     }
     string getPlateNumber() {
-        return plateNumber; //allows the main to access plateNumber
+        return PlateNumber; //allows the main to access plateNumber
     }
     virtual bool isValid() {
-        if (plateNumber.length() == 8) {
+        if (PlateNumber.length() == 8) {
             return true;
         }
         return false;
     }
 };
 
-class PlateType: public LicensePlate {
+class PlateType:LicensePlate {
+private:
+    string ownerRegistration;
 protected:
     string vehicleType;
     public:
-
-    PlateType(string n, string type):LicensePlate(n) {
-        vehicleType = type;
+    string vehicleInsurance;
+    string platetype;
+    PlateType(string n, string ptype, string vtype):LicensePlate(n) {
+        platetype = ptype;
+        vehicleType = vtype;
+        cout << "Plate Number: " << PlateNumber << endl;
+        cout << "Plate Type: " << ptype << endl;
     }
     void displayVehicleType() {
-        cout << "Type: " << vehicleType << endl;
+        cout << "Vehicle Type: " << vehicleType << endl;
     }
 };
 
@@ -39,7 +44,7 @@ class VanityPlate: public LicensePlate {
 public:
     VanityPlate(string n) : LicensePlate(n){}
     bool isValid() override {
-        int size = plateNumber.length();
+        int size = PlateNumber.length();
         if (size>= 2 && size <= 7) {
             return true;
         }
@@ -47,22 +52,22 @@ public:
     }
 };
 
-class PlateOwner: public LicensePlate {
+class PlateOwner {
 private:
-    string driversLicense;
-    string ownerRegistration;
-    string ownerInsurance;
+    string driversLicenseNum;
+    string ownerRegistrationNum;
+protected:
+    string vehicleInsurance;
 public:
-    PlateOwner(string n, string license, string ownerRegNum, string insurance):LicensePlate(n){
-        driversLicense = license;
-        ownerRegistration = ownerRegNum;
-        ownerInsurance = insurance;
+    PlateOwner(string drLicenseNum, string ownerRegNum, string vinsurance){
+        driversLicenseNum = drLicenseNum;
+        ownerRegistrationNum = ownerRegNum;
+        vehicleInsurance = vinsurance;
     }
     void displayOwnerInfo() {
-        cout << "Plate Number: " << plateNumber << endl;
-        cout << "Driver License Number: " << driversLicense << endl;
-        cout << "Owner's Registration Number: " << ownerRegistration << endl;
-        cout << "Owner's Insurance: " << ownerInsurance << endl;
+        cout << "Driver License Number: " << driversLicenseNum << endl;
+        cout << "Owner's Registration Number: " << ownerRegistrationNum << endl;
+        cout << "Vehicle's Insurance Valid: " << vehicleInsurance << endl;
     }
 };
 
@@ -85,9 +90,9 @@ int main() {
         cout << "Status: Invalid" << endl;
     }
     cout << "------------------" << endl;
-    PlateType t1("XYZ-123", "Truck"); //prints out the plate number and vehicle type
-    t1.displayVehicleType();
-    PlateOwner o1("ABp-1234", "D1209746", "D-12234", "No"); //prints out the plate number, license ID, and owner registration number
+    PlateType t1("080707870", "Standard", "Truck");
+    t1.displayVehicleType(); // prints out vehicle type, owner registration Number and if vehicle insurance exists by printing out yes or no
+    PlateOwner o1("ABC-1234","o80809808","No"); //prints out license ID, owner registration number, and
     o1.displayOwnerInfo();
     return 0;
 }
